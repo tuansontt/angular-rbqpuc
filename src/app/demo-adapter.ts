@@ -76,6 +76,7 @@ export class DemoAdapter extends ChatAdapter implements IChatGroupAdapter {
     }];
 
   listFriends(): Observable<ParticipantResponse[]> {
+   // console.log('12312');
     return of(DemoAdapter.mockedParticipants.map(user => {
       let participantResponse = new ParticipantResponse();
 
@@ -102,14 +103,14 @@ export class DemoAdapter extends ChatAdapter implements IChatGroupAdapter {
 
     return of(mockedHistory).pipe(delay(2000));
   }
-
   sendMessage(message: Message): void {
+ console.log('message: ',message);
     setTimeout(() => {
       let replyMessage = new Message();
 
       replyMessage.message = "You have typed '" + message.message + "'";
       replyMessage.dateSent = new Date();
-
+     
       if (isNaN(message.toId)) {
         let group = DemoAdapter.mockedParticipants.find(x => x.id == message.toId) as Group;
 
@@ -118,21 +119,23 @@ export class DemoAdapter extends ChatAdapter implements IChatGroupAdapter {
         replyMessage.fromId = group.chattingTo[randomParticipantIndex].id;
 
         replyMessage.toId = message.toId;
-
+         console.log(replyMessage);
         this.onMessageReceived(group, replyMessage);
       }
       else {
+      
         replyMessage.fromId = message.toId;
         replyMessage.toId = message.fromId;
-
+        console.log(replyMessage);
         let user = DemoAdapter.mockedParticipants.find(x => x.id == replyMessage.fromId);
-
+        console.log('user: ',user);
         this.onMessageReceived(user, replyMessage);
       }
     }, 1000);
   }
 
   groupCreated(group: Group): void {
+     console.log('1av');
     DemoAdapter.mockedParticipants.push(group);
 
     DemoAdapter.mockedParticipants = DemoAdapter.mockedParticipants.sort((first, second) =>

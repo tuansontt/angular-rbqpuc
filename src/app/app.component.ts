@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { ChatAdapter,User } from 'ng-chat';
+import { ChatAdapter,User, ChatParticipantStatus } from 'ng-chat';
 import { DemoAdapter } from './demo-adapter';
 import { IChatController } from 'ng-chat';
 
@@ -18,6 +18,7 @@ export class AppComponent  {
     var user = new User();
     user.id = 9999;
     user.displayName = 'sonnt2';
+    user.status = ChatParticipantStatus.Online;
     this.ngChatInstance.triggerOpenChatWindow(user);
   }
 }
